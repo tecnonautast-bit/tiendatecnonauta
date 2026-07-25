@@ -1,12 +1,14 @@
 name = "tiendatecnonauta"
 compatibility_date = "2024-09-01"
-pages_build_output_dir = "public"
+main = "src/index.js"
 
-# Base de datos D1 - reemplazá "database_id" por el ID real que te da
-# Cloudflare al crear la base (Workers & Pages > D1 > Create database).
-# Comando sugerido:
-#   npx wrangler d1 create tecnonauta-db
+[assets]
+directory = "public"
+binding = "ASSETS"
+
+# Base de datos D1 - reemplazá "database_name" y "database_id" por los reales
+# de la base que ya creaste en Cloudflare (D1 SQLite Database).
 [[d1_databases]]
 binding = "DB"
-database_name = "tecnonauta-db"
-database_id = "PEGAR_AQUI_TU_DATABASE_ID"
+database_name = "tiendatecnonauta"
+database_id = "2cc73d47-3758-48ba-ae3b-bd35ad1b35c5"
