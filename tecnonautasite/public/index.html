@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tecnonauta | Repuestos y Servicio Técnico para Celulares</title>
+<meta name="description" content="Tecnonauta: venta de repuestos, módulos, baterías y herramientas para celulares. Precios mayoristas para distribuidores en toda Argentina.">
+<link rel="icon" href="/img/logo-tecnonauta.jpg">
+<link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+
+<div id="tn-header"></div>
+
+<section class="hero">
+  <div class="container">
+    <div class="hero-texto">
+      <h1>Repuestos y servicio técnico<br>para celulares, a otro nivel 🚀</h1>
+      <p>Módulos, baterías y herramientas con stock real y despacho en 24hs hábiles. Precios especiales para técnicos y distribuidores.</p>
+      <div class="hero-acciones">
+        <a href="/tienda.html" class="btn btn-primary">Ver catálogo</a>
+        <a href="/distribuidores.html" class="btn btn-outline" style="border-color:#fff;color:#fff;">Quiero ser distribuidor</a>
+      </div>
+    </div>
+    <div class="hero-imagen">
+      <img src="/img/logo-tecnonauta.jpg" alt="Tecnonauta">
+    </div>
+  </div>
+</section>
+
+<section class="beneficios">
+  <div class="container">
+    <div class="beneficio"><span class="icono">🚚</span><div><strong>Envíos a todo el país</strong><span>OCA y Andreani</span></div></div>
+    <div class="beneficio"><span class="icono">⏱️</span><div><strong>Despacho 24hs hábiles</strong><span>Stock actualizado en tiempo real</span></div></div>
+    <div class="beneficio"><span class="icono">🛡️</span><div><strong>Garantía en todos los repuestos</strong><span>Cambios sin complicaciones</span></div></div>
+    <div class="beneficio"><span class="icono">🏷️</span><div><strong>Precios mayoristas</strong><span>Para técnicos y distribuidores</span></div></div>
+  </div>
+</section>
+
+<section class="seccion">
+  <div class="container">
+    <div class="seccion-titulo">
+      <h2>Categorías</h2>
+      <a href="/tienda.html">Ver toda la tienda →</a>
+    </div>
+    <div class="grid-categorias" id="gridCategorias">
+      <p>Cargando categorías...</p>
+    </div>
+  </div>
+</section>
+
+<section class="seccion seccion-alt">
+  <div class="container">
+    <div class="seccion-titulo">
+      <h2>Destacados</h2>
+      <a href="/tienda.html?destacado=1">Ver más →</a>
+    </div>
+    <div class="grid-productos" id="gridDestacados">
+      <p>Cargando productos...</p>
+    </div>
+  </div>
+</section>
+
+<section class="seccion">
+  <div class="container">
+    <div class="seccion-titulo">
+      <h2>OfertasHOT 🔥</h2>
+      <a href="/tienda.html?oferta=1">Ver todas las ofertas →</a>
+    </div>
+    <div class="grid-productos" id="gridOfertas">
+      <p>Cargando ofertas...</p>
+    </div>
+  </div>
+</section>
+
+<section class="seccion calidades">
+  <div class="container">
+    <div class="seccion-titulo"><h2 style="color:#fff;">Nuestras calidades</h2></div>
+    <div class="grid-calidades">
+      <div class="tarjeta-calidad"><strong>Original</strong><p>Repuesto original de fábrica, máxima compatibilidad y durabilidad.</p></div>
+      <div class="tarjeta-calidad"><strong>OEM Premium</strong><p>Calidad equivalente al original, la mejor relación precio-rendimiento.</p></div>
+      <div class="tarjeta-calidad"><strong>Incell</strong><p>Buena calidad de imagen a un precio más accesible.</p></div>
+      <div class="tarjeta-calidad"><strong>Genérica</strong><p>Ideal para reventa masiva y presupuestos ajustados.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="seccion">
+  <div class="container">
+    <div class="cta-distribuidores">
+      <div>
+        <h3>¿Tenés un local de reparaciones?</h3>
+        <p>Sumate como distribuidor de Tecnonauta y accedé a precios mayoristas, stock prioritario y asesoramiento técnico.</p>
+      </div>
+      <a href="/distribuidores.html" class="btn" style="background:#fff;color:var(--violeta-700);">Quiero ser distribuidor</a>
+    </div>
+  </div>
+</section>
+
+<div id="tn-footer"></div>
+
+<script src="/js/app.js"></script>
+<script>
+async function initHome() {
+  const categorias = await TN.cargarCategorias();
+  document.getElementById('gridCategorias').innerHTML = categorias.map(c => `
+    <a href="/tienda.html?categoria=${c.slug}" class="tarjeta-categoria">
+      <div class="icono">📱</div>
+      <strong>${c.nombre}</strong>
+    </a>
+  `).join('');
+
+  const destacados = await TN.cargarProductos({ destacado: 1 });
+  document.getElementById('gridDestacados').innerHTML = destacados.map(tarjetaProductoHTML).join('') || '<p>Muy pronto vas a ver acá tus productos destacados.</p>';
+  activarBotonesAgregar(document.getElementById('gridDestacados'));
+
+  const ofertas = await TN.cargarProductos({ oferta: 1 });
+  document.getElementById('gridOfertas').innerHTML = ofertas.map(tarjetaProductoHTML).join('') || '<p>No hay ofertas activas por el momento.</p>';
+  activarBotonesAgregar(document.getElementById('gridOfertas'));
+}
+document.addEventListener('DOMContentLoaded', initHome);
+</script>
+</body>
+</html>

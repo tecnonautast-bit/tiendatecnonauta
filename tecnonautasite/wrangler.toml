@@ -1,0 +1,12 @@
+name = "tecnonauta"
+compatibility_date = "2024-09-01"
+pages_build_output_dir = "public"
+
+# Base de datos D1 - reemplazá "database_id" por el ID real que te da
+# Cloudflare al crear la base (Workers & Pages > D1 > Create database).
+# Comando sugerido:
+#   npx wrangler d1 create tecnonauta-db
+[[d1_databases]]
+binding = "DB"
+database_name = "tecnonauta-db"
+database_id = "PEGAR_AQUI_TU_DATABASE_ID"

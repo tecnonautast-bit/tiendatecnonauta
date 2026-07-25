@@ -1,0 +1,65 @@
+{
+  "ok": true,
+  "productos": [
+    {
+      "id": 1, "sku": "TN-MOD-IP11-OEM", "nombre": "Módulo iPhone 11 OEM Premium",
+      "slug": "modulo-iphone-11-oem",
+      "descripcion": "Módulo de pantalla para iPhone 11, calidad OEM Premium, incluye vidrio templado de regalo.",
+      "precio_minorista": 45000, "precio_mayorista": 36000, "stock": 25,
+      "imagen_url": "/img/productos/placeholder.png",
+      "destacado": 1, "en_oferta": 0, "es_nuevo": 0,
+      "categoria": "Módulos / Pantallas", "categoria_slug": "modulos-pantallas",
+      "marca": "Apple", "modelo": "iPhone 11", "calidad": "OEM Premium"
+    },
+    {
+      "id": 2, "sku": "TN-BAT-A10-ORI", "nombre": "Batería Galaxy A10 Original",
+      "slug": "bateria-galaxy-a10-original",
+      "descripcion": "Batería original Samsung para Galaxy A10, 3400mAh.",
+      "precio_minorista": 18000, "precio_mayorista": 14000, "stock": 40,
+      "imagen_url": "/img/productos/placeholder.png",
+      "destacado": 1, "en_oferta": 1, "es_nuevo": 0,
+      "categoria": "Baterías", "categoria_slug": "baterias",
+      "marca": "Samsung", "modelo": "Galaxy A10", "calidad": "Original"
+    },
+    {
+      "id": 3, "sku": "TN-MOD-RN10-INC", "nombre": "Módulo Redmi Note 10 Incell",
+      "slug": "modulo-redmi-note-10-incell",
+      "descripcion": "Módulo de pantalla Incell para Redmi Note 10.",
+      "precio_minorista": 32000, "precio_mayorista": 25000, "stock": 15,
+      "imagen_url": "/img/productos/placeholder.png",
+      "destacado": 0, "en_oferta": 1, "es_nuevo": 1,
+      "categoria": "Módulos / Pantallas", "categoria_slug": "modulos-pantallas",
+      "marca": "Xiaomi", "modelo": "Redmi Note 10", "calidad": "Incell"
+    },
+    {
+      "id": 4, "sku": "TN-HER-KIT01", "nombre": "Kit de herramientas de apertura x24",
+      "slug": "kit-herramientas-apertura-24",
+      "descripcion": "Kit completo de herramientas para apertura y reparación de celulares.",
+      "precio_minorista": 9500, "precio_mayorista": 7000, "stock": 60,
+      "imagen_url": "/img/productos/placeholder.png",
+      "destacado": 1, "en_oferta": 0, "es_nuevo": 0,
+      "categoria": "Herramientas", "categoria_slug": "herramientas",
+      "marca": null, "modelo": null, "calidad": "Genérica"
+    },
+    {
+      "id": 5, "sku": "TN-FLEX-G30-CARGA", "nombre": "Flex de carga Moto G30",
+      "slug": "flex-carga-moto-g30",
+      "descripcion": "Conector/flex de carga para Motorola Moto G30.",
+      "precio_minorista": 8500, "precio_mayorista": 6200, "stock": 30,
+      "imagen_url": "/img/productos/placeholder.png",
+      "destacado": 0, "en_oferta": 0, "es_nuevo": 1,
+      "categoria": "Repuestos varios", "categoria_slug": "repuestos-varios",
+      "marca": "Motorola", "modelo": "Moto G30", "calidad": "OEM Premium"
+    },
+    {
+      "id": 6, "sku": "TN-MOD-IP12-ORI", "nombre": "Módulo iPhone 12 Original",
+      "slug": "modulo-iphone-12-original",
+      "descripcion": "Módulo de pantalla original para iPhone 12 (recuperado y testeado).",
+      "precio_minorista": 78000, "precio_mayorista": 64000, "stock": 8,
+      "imagen_url": "/img/productos/placeholder.png",
+      "destacado": 1, "en_oferta": 1, "es_nuevo": 0,
+      "categoria": "Módulos / Pantallas", "categoria_slug": "modulos-pantallas",
+      "marca": "Apple", "modelo": "iPhone 12", "calidad": "Original"
+    }
+  ]
+}

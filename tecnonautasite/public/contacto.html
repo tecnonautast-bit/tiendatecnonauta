@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contacto | Tecnonauta</title>
+<link rel="icon" href="/img/logo-tecnonauta.jpg">
+<link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+
+<div id="tn-header"></div>
+
+<section class="seccion">
+  <div class="container" style="display:grid;grid-template-columns:1fr 1fr;gap:40px;">
+    <div>
+      <h1 style="color:var(--violeta-900);">Contactanos</h1>
+      <p style="color:var(--gris-600);">¿Tenés dudas sobre un producto, tu pedido o querés asesoramiento técnico? Escribinos.</p>
+      <ul style="margin-top:24px;color:var(--gris-800);font-size:0.95rem;line-height:2;">
+        <li>📍 <span class="placeholder">[TU CIUDAD, PROVINCIA]</span></li>
+        <li>✉️ <span class="placeholder">[TU EMAIL]</span></li>
+        <li>📱 <span class="placeholder">[TU WHATSAPP]</span></li>
+        <li>🕑 Lun a Vie / <span class="placeholder">[HORARIO]</span></li>
+      </ul>
+    </div>
+
+    <div class="form-card">
+      <form id="formContacto">
+        <div class="campo">
+          <label>Nombre *</label>
+          <input type="text" name="nombre" required>
+        </div>
+        <div class="campo">
+          <label>Email *</label>
+          <input type="email" name="email" required>
+        </div>
+        <div class="campo">
+          <label>Teléfono</label>
+          <input type="tel" name="telefono">
+        </div>
+        <div class="campo">
+          <label>Mensaje *</label>
+          <textarea name="mensaje" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Enviar mensaje</button>
+        <div id="mensajeContacto" class="form-mensaje"></div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<div id="tn-footer"></div>
+<script src="/js/app.js"></script>
+<script>
+document.getElementById('formContacto').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const form = e.target;
+  const datos = Object.fromEntries(new FormData(form).entries());
+  const msj = document.getElementById('mensajeContacto');
+  try {
+    const res = await fetch(`${TN.API}/contacto`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(datos),
+    });
+    const data = await res.json();
+    if (data.ok) {
+      msj.textContent = data.mensaje || 'Mensaje enviado.';
+      msj.className = 'form-mensaje ok';
+      form.reset();
+    } else {
+      throw new Error(data.error);
+    }
+  } catch (err) {
+    msj.textContent = 'No pudimos enviar el mensaje automáticamente (conectá la base D1 en Cloudflare). Mientras tanto, escribinos por WhatsApp.';
+    msj.className = 'form-mensaje error';
+  }
+});
+</script>
+</body>
+</html>

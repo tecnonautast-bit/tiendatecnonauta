@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tienda | Tecnonauta</title>
+<link rel="icon" href="/img/logo-tecnonauta.jpg">
+<link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+
+<div id="tn-header"></div>
+
+<section class="seccion">
+  <div class="container">
+    <div class="seccion-titulo">
+      <h2 id="tituloTienda">Tienda</h2>
+      <span id="contadorResultados" style="font-size:0.85rem;color:var(--gris-600);"></span>
+    </div>
+
+    <div class="layout-tienda">
+      <aside class="filtros">
+        <div class="grupo">
+          <h4>Categorías</h4>
+          <div id="filtroCategorias">Cargando...</div>
+        </div>
+        <div class="grupo">
+          <h4>Mostrar</h4>
+          <label><input type="checkbox" id="fOferta"> En oferta</label>
+          <label><input type="checkbox" id="fNuevo"> Nuevos ingresos</label>
+        </div>
+        <button class="btn btn-outline btn-block" id="btnLimpiarFiltros">Limpiar filtros</button>
+      </aside>
+
+      <div>
+        <div class="grid-productos" id="gridTienda">
+          <p>Cargando productos...</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div id="tn-footer"></div>
+
+<script src="/js/app.js"></script>
+<script>
+function paramsActuales() {
+  const url = new URL(location.href);
+  return {
+    categoria: url.searchParams.get('categoria') || undefined,
+    oferta: url.searchParams.get('oferta') || undefined,
+    nuevo: url.searchParams.get('nuevo') || undefined,
+    buscar: url.searchParams.get('buscar') || undefined,
+  };
+}
+
+async function initTienda() {
+  const categorias = await TN.cargarCategorias();
+  const p = paramsActuales();
+
+  document.getElementById('filtroCategorias').innerHTML = categorias.map(c => `
+    <label>
+      <input type="radio" name="fCategoria" value="${c.slug}" ${p.categoria === c.slug ? 'checked' : ''}>
+      ${c.nombre}
+    </label>
+  `).join('') + `<label><input type="radio" name="fCategoria" value="" ${!p.categoria ? 'checked' : ''}> Todas</label>`;
+
+  if (p.oferta) document.getElementById('fOferta').checked = true;
+  if (p.nuevo) document.getElementById('fNuevo').checked = true;
+  if (p.buscar) document.getElementById('tituloTienda').textContent = `Resultados para "${p.buscar}"`;
+
+  await recargarProductos();
+
+  document.querySelectorAll('input[name="fCategoria"]').forEach(r => r.addEventListener('change', recargarProductos));
+  document.getElementById('fOferta').addEventListener('change', recargarProductos);
+  document.getElementById('fNuevo').addEventListener('change', recargarProductos);
+  document.getElementById('btnLimpiarFiltros').addEventListener('click', () => {
+    location.href = '/tienda.html';
+  });
+}
+
+async function recargarProductos() {
+  const categoriaEl = document.querySelector('input[name="fCategoria"]:checked');
+  const params = paramsActuales();
+  const filtros = {
+    categoria: categoriaEl && categoriaEl.value ? categoriaEl.value : undefined,
+    oferta: document.getElementById('fOferta').checked ? 1 : undefined,
+    nuevo: document.getElementById('fNuevo').checked ? 1 : undefined,
+    buscar: params.buscar,
+  };
+  Object.keys(filtros).forEach(k => filtros[k] === undefined && delete filtros[k]);
+
+  const productos = await TN.cargarProductos(filtros);
+  document.getElementById('contadorResultados').textContent = `${productos.length} producto(s)`;
+  document.getElementById('gridTienda').innerHTML = productos.map(tarjetaProductoHTML).join('') || '<p>No encontramos productos con esos filtros.</p>';
+  activarBotonesAgregar(document.getElementById('gridTienda'));
+}
+
+document.addEventListener('DOMContentLoaded', initTienda);
+</script>
+</body>
+</html>

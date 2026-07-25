@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carrito | Tecnonauta</title>
+<link rel="icon" href="/img/logo-tecnonauta.jpg">
+<link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+
+<div id="tn-header"></div>
+
+<section class="seccion">
+  <div class="container">
+    <div class="seccion-titulo"><h2>Tu carrito</h2></div>
+    <div id="contenidoCarrito">
+      <p>Cargando carrito...</p>
+    </div>
+  </div>
+</section>
+
+<div id="tn-footer"></div>
+
+<script src="/js/app.js"></script>
+<script>
+async function cargarCarrito() {
+  const cont = document.getElementById('contenidoCarrito');
+  let items = [];
+  try {
+    const res = await fetch(`${TN.API}/carrito`);
+    const data = await res.json();
+    items = data.items || [];
+  } catch (e) { items = []; }
+
+  if (!items.length) {
+    cont.innerHTML = `
+      <p>Tu carrito está vacío todavía.</p>
+      <a href="/tienda.html" class="btn btn-primary">Ir a la tienda</a>
+      <p style="margin-top:24px;font-size:0.8rem;color:var(--gris-600);">
+        Nota: el carrito se conecta a la base de datos D1 una vez desplegado el sitio en Cloudflare Pages.
+        En vista previa local puede aparecer vacío.
+      </p>`;
+    return;
+  }
+
+  const subtotal = items.reduce((acc, it) => acc + it.precio_minorista * it.cantidad, 0);
+
+  cont.innerHTML = `
+    <table class="tabla-carrito">
+      <thead><tr><th>Producto</th><th>Precio</th><th>Cantidad</th><th>Subtotal</th><th></th></tr></thead>
+      <tbody>
+        ${items.map(it => `
+          <tr>
+            <td>
+              <div class="fila-producto-carrito">
+                <img src="${it.imagen_url || '/img/productos/placeholder.png'}" alt="${it.nombre}">
+                <span>${it.nombre}</span>
+              </div>
+            </td>
+            <td>${TN.fmt(it.precio_minorista)}</td>
+            <td>
+              <div class="qty-control">
+                <button onclick="cambiarCantidad(${it.producto_id}, ${it.cantidad - 1})">-</button>
+                <span>${it.cantidad}</span>
+                <button onclick="cambiarCantidad(${it.producto_id}, ${it.cantidad + 1})">+</button>
+              </div>
+            </td>
+            <td>${TN.fmt(it.precio_minorista * it.cantidad)}</td>
+            <td><button class="btn btn-outline btn-sm" onclick="quitarDelCarrito(${it.producto_id})">Quitar</button></td>
+          </tr>
+        `).join('')}
+      </tbody>
+    </table>
+
+    <div class="resumen-carrito" style="margin-top:24px;">
+      <div class="linea"><span>Subtotal</span><span>${TN.fmt(subtotal)}</span></div>
+      <div class="linea"><span>Envío</span><span>A calcular</span></div>
+      <div class="linea total"><span>Total</span><span>${TN.fmt(subtotal)}</span></div>
+      <button class="btn btn-primary btn-block" style="margin-top:16px;" onclick="finalizarCompra()">Finalizar compra</button>
+    </div>
+  `;
+}
+
+async function cambiarCantidad(productoId, nuevaCantidad) {
+  if (nuevaCantidad < 1) return quitarDelCarrito(productoId);
+  await fetch(`${TN.API}/carrito`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ producto_id: productoId, cantidad: nuevaCantidad }),
+  });
+  cargarCarrito();
+  actualizarBadgeCarrito();
+}
+
+async function quitarDelCarrito(productoId) {
+  await fetch(`${TN.API}/carrito?producto_id=${productoId}`, { method: 'DELETE' });
+  cargarCarrito();
+  actualizarBadgeCarrito();
+}
+
+async function finalizarCompra() {
+  try {
+    const res = await fetch(`${TN.API}/pedidos`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ metodo_envio: 'retiro_local', metodo_pago: 'a_coordinar' }),
+    });
+    const data = await res.json();
+    if (data.ok) {
+      alert(`¡Pedido #${data.pedido_id} creado! Te contactaremos para coordinar el pago y el envío.`);
+      cargarCarrito();
+      actualizarBadgeCarrito();
+    } else {
+      alert('No se pudo generar el pedido: ' + (data.error || ''));
+    }
+  } catch (e) {
+    alert('El checkout todavía no está conectado a la base de datos (D1). Desplegá el sitio en Cloudflare para habilitarlo.');
+  }
+}
+
+document.addEventListener('DOMContentLoaded', cargarCarrito);
+</script>
+</body>
+</html>

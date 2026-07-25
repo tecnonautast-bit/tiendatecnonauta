@@ -1,0 +1,10 @@
+{
+  "ok": true,
+  "categorias": [
+    { "id": 1, "nombre": "Módulos / Pantallas", "slug": "modulos-pantallas", "descripcion": "Pantallas y módulos LCD/OLED para todas las marcas" },
+    { "id": 2, "nombre": "Baterías", "slug": "baterias", "descripcion": "Baterías originales y compatibles" },
+    { "id": 3, "nombre": "Herramientas", "slug": "herramientas", "descripcion": "Herramientas de apertura, soldadura y diagnóstico" },
+    { "id": 4, "nombre": "Repuestos varios", "slug": "repuestos-varios", "descripcion": "Flex, conectores de carga, cámaras, tapas" },
+    { "id": 5, "nombre": "Accesorios", "slug": "accesorios", "descripcion": "Fundas, vidrios templados, cables" }
+  ]
+}

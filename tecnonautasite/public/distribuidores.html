@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Distribuidores | Tecnonauta</title>
+<link rel="icon" href="/img/logo-tecnonauta.jpg">
+<link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+
+<div id="tn-header"></div>
+
+<section class="hero" style="padding:40px 0;">
+  <div class="container">
+    <div class="hero-texto">
+      <h1>Programa de Distribuidores Tecnonauta</h1>
+      <p>Sumate como técnico o comercio y accedé a precios mayoristas, stock prioritario y asesoramiento en cada compra.</p>
+    </div>
+  </div>
+</section>
+
+<section class="seccion">
+  <div class="container" style="display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start;">
+    <div>
+      <h2 style="color:var(--violeta-900);">Beneficios</h2>
+      <div class="grid-calidades" style="grid-template-columns:1fr;">
+        <div class="tarjeta-calidad" style="background:#fff;border-color:var(--gris-200);">
+          <strong style="color:var(--violeta-700);">Precios mayoristas</strong>
+          <p style="color:var(--gris-600);">Descuentos especiales sobre el precio de lista en toda la tienda.</p>
+        </div>
+        <div class="tarjeta-calidad" style="background:#fff;border-color:var(--gris-200);">
+          <strong style="color:var(--violeta-700);">Compra mínima <span class="placeholder">$[MONTO MÍNIMO]</span></strong>
+          <p style="color:var(--gris-600);">Pensada para reposición mensual de stock de tu local.</p>
+        </div>
+        <div class="tarjeta-calidad" style="background:#fff;border-color:var(--gris-200);">
+          <strong style="color:var(--violeta-700);">Envíos a todo el país</strong>
+          <p style="color:var(--gris-600);">Trabajamos con OCA y Andreani, con despacho en 24hs hábiles.</p>
+        </div>
+        <div class="tarjeta-calidad" style="background:#fff;border-color:var(--gris-200);">
+          <strong style="color:var(--violeta-700);">Asesoramiento técnico</strong>
+          <p style="color:var(--gris-600);">Te ayudamos a elegir la calidad de repuesto correcta para cada reparación.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-card">
+      <h3 style="margin-top:0;color:var(--violeta-900);">Solicitar cuenta de distribuidor</h3>
+      <form id="formDistribuidor">
+        <div class="campo">
+          <label>Nombre del negocio *</label>
+          <input type="text" name="nombre_negocio" required>
+        </div>
+        <div class="campo">
+          <label>CUIT</label>
+          <input type="text" name="cuit">
+        </div>
+        <div class="campo">
+          <label>Email *</label>
+          <input type="email" name="email" required>
+        </div>
+        <div class="campo">
+          <label>Teléfono / WhatsApp</label>
+          <input type="tel" name="telefono">
+        </div>
+        <div class="campo">
+          <label>Ciudad</label>
+          <input type="text" name="ciudad">
+        </div>
+        <div class="campo">
+          <label>Contanos sobre tu negocio</label>
+          <textarea name="mensaje" placeholder="Ej: local de reparaciones, cuánto tiempo llevás en el rubro, qué productos te interesan..."></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Enviar solicitud</button>
+        <div id="mensajeDistribuidor" class="form-mensaje"></div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<div id="tn-footer"></div>
+
+<script src="/js/app.js"></script>
+<script>
+document.getElementById('formDistribuidor').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const form = e.target;
+  const datos = Object.fromEntries(new FormData(form).entries());
+  const msj = document.getElementById('mensajeDistribuidor');
+  try {
+    const res = await fetch(`${TN.API}/distribuidores`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(datos),
+    });
+    const data = await res.json();
+    if (data.ok) {
+      msj.textContent = data.mensaje || 'Solicitud enviada correctamente.';
+      msj.className = 'form-mensaje ok';
+      form.reset();
+    } else {
+      throw new Error(data.error);
+    }
+  } catch (err) {
+    msj.textContent = 'No pudimos enviar tu solicitud automáticamente (conectá la base D1 en Cloudflare). Mientras tanto, escribinos por WhatsApp.';
+    msj.className = 'form-mensaje error';
+  }
+});
+</script>
+</body>
+</html>

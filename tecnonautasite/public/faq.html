@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Preguntas Frecuentes | Tecnonauta</title>
+<link rel="icon" href="/img/logo-tecnonauta.jpg">
+<link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+
+<div id="tn-header"></div>
+
+<section class="seccion">
+  <div class="container" style="max-width:760px;">
+    <h1 style="color:var(--violeta-900);">Preguntas frecuentes</h1>
+
+    <div class="faq-item">
+      <button class="faq-pregunta">¿Cuál es la compra mínima para distribuidores? <span>+</span></button>
+      <div class="faq-respuesta"><p>La compra mínima mayorista es de <span class="placeholder">$[MONTO MÍNIMO]</span>. Podés combinar productos de todas las categorías para alcanzarla.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-pregunta">¿Qué medios de envío utilizan? <span>+</span></button>
+      <div class="faq-respuesta"><p>Enviamos a todo el país con OCA y Andreani. Los pedidos se despachan dentro de las 24hs hábiles de acreditado el pago.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-pregunta">¿Los productos tienen garantía? <span>+</span></button>
+      <div class="faq-respuesta"><p>Sí, todos nuestros repuestos cuentan con garantía. Ante cualquier falla de fábrica, coordinamos el cambio sin cargo.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-pregunta">¿Cuál es la diferencia entre las calidades de módulos? <span>+</span></button>
+      <div class="faq-respuesta"><p>Original es el repuesto de fábrica; OEM Premium es equivalente en calidad; Incell tiene buena relación precio-calidad; Genérica es la opción más económica para reventa masiva.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-pregunta">¿Cómo me registro como distribuidor? <span>+</span></button>
+      <div class="faq-respuesta"><p>Completá el formulario en la sección <a href="/distribuidores.html" style="color:var(--violeta-600);">Distribuidores</a> y nuestro equipo te va a contactar para validar tu cuenta.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-pregunta">¿Qué medios de pago aceptan? <span>+</span></button>
+      <div class="faq-respuesta"><p><span class="placeholder">[Detallá acá tus medios de pago: transferencia, tarjetas, Mercado Pago, etc.]</span></p></div>
+    </div>
+  </div>
+</section>
+
+<div id="tn-footer"></div>
+<script src="/js/app.js"></script>
+<script>
+document.querySelectorAll('.faq-pregunta').forEach(btn => {
+  btn.addEventListener('click', () => btn.closest('.faq-item').classList.toggle('abierto'));
+});
+</script>
+</body>
+</html>
